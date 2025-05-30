@@ -1,0 +1,33 @@
+IR control updated program
+include <IRremote.h>
+
+const int RECV_PIN = 10; // Connect your IR receiver's OUT pin to this pin
+
+void setup() {
+Serial.begin(9600);
+IrReceiver.begin(RECV_PIN); // Start the receiver
+Serial.println("Waiting for IR input...");
+}
+
+void loop() {
+if (IrReceiver.decode()) {
+// Print HEX code of the button
+Serial.print("Button Pressed
+HEX Code: 0x");
+
+Serial.println(IrReceiver.decodedIRData.command, HEX);
+// To see the full raw data:
+// IrReceiver.printIRResultShort(&Serial);
+// IrReceiver.printIRSendUsage(&Serial);
+
+IrReceiver.resume(); // Ready to receive the next signal
+if(IrReceiver.decodedIRData.command==0xC)
+digitalWrite(12,HIGH);
+else
+digitalWrite(12,LOW);
+if(IrReceiver.decodedIRData.command==0x10)
+digitalWrite(11,HIGH);
+else
+digitalWrite(11,LOW);
+}
+}
